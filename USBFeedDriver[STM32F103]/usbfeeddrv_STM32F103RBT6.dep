@@ -1,0 +1,63 @@
+Dependencies for Project 'usbfeeddrv', Target 'STM32F103RBT6': (DO NOT MODIFY !)
+F (.\startup_stm32f10x_md.s)(0x54F4EB16)(--cpu Cortex-M3 -g --apcs=interwork -I "C:\Program Files\Keil\ARM\RV31\INC"-I "C:\Program Files\Keil\ARM\CMSIS\Include"-I "C:\Program Files\Keil\ARM\Inc\ST\STM32F10x"--pd "__UVISION_VERSION SETA 514"--list .\startup_stm32f10x_md.lst --xref -o .\startup_stm32f10x_md.o --depend .\startup_stm32f10x_md.d)
+F (.\init.c)(0x554D1535)(-c --cpu Cortex-M3 -g -O2 --apcs=interwork -I "C:\Program Files\Keil\ARM\RV31\INC"-I "C:\Program Files\Keil\ARM\CMSIS\Include"-I "C:\Program Files\Keil\ARM\Inc\ST\STM32F10x"-D__UVISION_VERSION="514" -DSTM32F10X_MD-o .\init.o --omf_browse .\init.crf --depend .\init.d)
+I (init.h)(0x54EB3ADE)
+I (C:\Program Files\Keil\ARM\Inc\ST\STM32F10x\stm32f10x.h)(0x53BA8964)
+I (C:\Program Files\Keil\ARM\CMSIS\Include\core_cm3.h)(0x53467FC4)
+I (C:\Program Files\Keil\ARM\ARMCC\include\stdint.h)(0x54763950)
+I (C:\Program Files\Keil\ARM\CMSIS\Include\core_cmInstr.h)(0x53467FC4)
+I (C:\Program Files\Keil\ARM\CMSIS\Include\core_cmFunc.h)(0x53467FC4)
+I (C:\Program Files\Keil\ARM\Inc\ST\STM32F10x\system_stm32f10x.h)(0x53467D92)
+I (pinsdef.h)(0x54F4E7F8)
+I (bitband.h)(0x54EB3ADE)
+I (types.h)(0x554D0DE8)
+F (.\main.c)(0x554EBFAA)(-c --cpu Cortex-M3 -g -O2 --apcs=interwork -I "C:\Program Files\Keil\ARM\RV31\INC"-I "C:\Program Files\Keil\ARM\CMSIS\Include"-I "C:\Program Files\Keil\ARM\Inc\ST\STM32F10x"-D__UVISION_VERSION="514" -DSTM32F10X_MD-o .\main.o --omf_browse .\main.crf --depend .\main.d)
+I (C:\Program Files\Keil\ARM\ARMCC\include\stdlib.h)(0x54763950)
+I (C:\Program Files\Keil\ARM\ARMCC\include\stdio.h)(0x54763950)
+I (main.h)(0x54EB3ADE)
+I (init.h)(0x54EB3ADE)
+I (C:\Program Files\Keil\ARM\Inc\ST\STM32F10x\stm32f10x.h)(0x53BA8964)
+I (C:\Program Files\Keil\ARM\CMSIS\Include\core_cm3.h)(0x53467FC4)
+I (C:\Program Files\Keil\ARM\ARMCC\include\stdint.h)(0x54763950)
+I (C:\Program Files\Keil\ARM\CMSIS\Include\core_cmInstr.h)(0x53467FC4)
+I (C:\Program Files\Keil\ARM\CMSIS\Include\core_cmFunc.h)(0x53467FC4)
+I (C:\Program Files\Keil\ARM\Inc\ST\STM32F10x\system_stm32f10x.h)(0x53467D92)
+I (pinsdef.h)(0x54F4E7F8)
+I (bitband.h)(0x54EB3ADE)
+I (types.h)(0x554D0DE8)
+I (rtc.h)(0x54EB3ADE)
+I (iwdt.h)(0x54EB3ADE)
+I (usbfeed.h)(0x554D1343)
+I (dwsfeed.h)(0x54EB3ADE)
+I (events.h)(0x554D15D2)
+I (testascii.h)(0x54ECBD61)
+F (.\rtc.c)(0x54EA16C9)(-c --cpu Cortex-M3 -g -O2 --apcs=interwork -I "C:\Program Files\Keil\ARM\RV31\INC"-I "C:\Program Files\Keil\ARM\CMSIS\Include"-I "C:\Program Files\Keil\ARM\Inc\ST\STM32F10x"-D__UVISION_VERSION="514" -DSTM32F10X_MD-o .\rtc.o --omf_browse .\rtc.crf --depend .\rtc.d)
+I (C:\Program Files\Keil\ARM\Inc\ST\STM32F10x\stm32f10x.h)(0x53BA8964)
+I (C:\Program Files\Keil\ARM\CMSIS\Include\core_cm3.h)(0x53467FC4)
+I (C:\Program Files\Keil\ARM\ARMCC\include\stdint.h)(0x54763950)
+I (C:\Program Files\Keil\ARM\CMSIS\Include\core_cmInstr.h)(0x53467FC4)
+I (C:\Program Files\Keil\ARM\CMSIS\Include\core_cmFunc.h)(0x53467FC4)
+I (C:\Program Files\Keil\ARM\Inc\ST\STM32F10x\system_stm32f10x.h)(0x53467D92)
+I (rtc.h)(0x54EB3ADE)
+I (events.h)(0x554D15D2)
+F (.\iwdt.c)(0x54EA16AA)(-c --cpu Cortex-M3 -g -O2 --apcs=interwork -I "C:\Program Files\Keil\ARM\RV31\INC"-I "C:\Program Files\Keil\ARM\CMSIS\Include"-I "C:\Program Files\Keil\ARM\Inc\ST\STM32F10x"-D__UVISION_VERSION="514" -DSTM32F10X_MD-o .\iwdt.o --omf_browse .\iwdt.crf --depend .\iwdt.d)
+I (C:\Program Files\Keil\ARM\Inc\ST\STM32F10x\stm32f10x.h)(0x53BA8964)
+I (C:\Program Files\Keil\ARM\CMSIS\Include\core_cm3.h)(0x53467FC4)
+I (C:\Program Files\Keil\ARM\ARMCC\include\stdint.h)(0x54763950)
+I (C:\Program Files\Keil\ARM\CMSIS\Include\core_cmInstr.h)(0x53467FC4)
+I (C:\Program Files\Keil\ARM\CMSIS\Include\core_cmFunc.h)(0x53467FC4)
+I (C:\Program Files\Keil\ARM\Inc\ST\STM32F10x\system_stm32f10x.h)(0x53467D92)
+I (iwdt.h)(0x54EB3ADE)
+F (.\usbfeed.c)(0x554EC4EE)(-c --cpu Cortex-M3 -g -O2 --apcs=interwork -I "C:\Program Files\Keil\ARM\RV31\INC"-I "C:\Program Files\Keil\ARM\CMSIS\Include"-I "C:\Program Files\Keil\ARM\Inc\ST\STM32F10x"-D__UVISION_VERSION="514" -DSTM32F10X_MD-o .\usbfeed.o --omf_browse .\usbfeed.crf --depend .\usbfeed.d)
+I (usbfeed.h)(0x554D1343)
+I (C:\Program Files\Keil\ARM\Inc\ST\STM32F10x\stm32f10x.h)(0x53BA8964)
+I (C:\Program Files\Keil\ARM\CMSIS\Include\core_cm3.h)(0x53467FC4)
+I (C:\Program Files\Keil\ARM\ARMCC\include\stdint.h)(0x54763950)
+I (C:\Program Files\Keil\ARM\CMSIS\Include\core_cmInstr.h)(0x53467FC4)
+I (C:\Program Files\Keil\ARM\CMSIS\Include\core_cmFunc.h)(0x53467FC4)
+I (C:\Program Files\Keil\ARM\Inc\ST\STM32F10x\system_stm32f10x.h)(0x53467D92)
+I (types.h)(0x554D0DE8)
+I (dwsfeed.h)(0x54EB3ADE)
+I (events.h)(0x554D15D2)
+I (C:\Program Files\Keil\ARM\ARMCC\include\stdlib.h)(0x54763950)
+I (C:\Program Files\Keil\ARM\ARMCC\include\string.h)(0x54763950)
