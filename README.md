@@ -2,7 +2,7 @@
 
 > _ARMv7 Cortex™ M3 / STM32F103_
 
->																								15.05.15
+>																				15.05.15
 
 ## Key features
 
