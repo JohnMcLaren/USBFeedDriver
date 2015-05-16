@@ -18,3 +18,9 @@ For example, from 255 bytes of allowable frame size, only 6 bytes are service (2
 - FEED driver frees the devices developer from having to study the work of USB and presents it **simply** as a communications link 
 - FEED protocol with minimal changes can be extended to **any** other communications link 
 - The integrity of each frame is protected by **CRC8**
+
+![processfeed](https://github.com/JohnMcLaren/USBFeedDriver/blob/master/img/FeedBuffers.png)
+
+Feed test tool (Qt example USB FEED application and uses CUSBFeed class)
+
+![testterminal](https://github.com/JohnMcLaren/USBFeedDriver/blob/master/img/TestTerminalQt.png)
