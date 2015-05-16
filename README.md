@@ -24,3 +24,5 @@ For example, from 255 bytes of allowable frame size, only 6 bytes are service (2
 Feed test tool (Qt example USB FEED application and uses CUSBFeed class)
 
 ![testterminal](https://github.com/JohnMcLaren/USBFeedDriver/blob/master/img/TestTerminalQt.png)
+
+More about Feed Driver work on project page http://johnmclaren.github.io/USBFeedDriver
