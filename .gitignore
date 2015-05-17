@@ -5,3 +5,4 @@
 /USBFeedDriverTest\[Qt5\]/Makefile
 /USBFeedDriverTest\[Qt5\]/*.Debug
 /USBFeedDriverTest\[Qt5\]/*.Release
+/*.gitignore
