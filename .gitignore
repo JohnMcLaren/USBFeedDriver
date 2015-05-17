@@ -1,7 +1,0 @@
-*.EvGen
-/release
-/USBFeedDriver\[ARMv7CM3-STM32F103\]/*.htm
-/USBFeedDriver\[ARMv7CM3-STM32F103\]/*.d
-/USBFeedDriverTest\[Qt5\]/Makefile
-/USBFeedDriverTest\[Qt5\]/*.Debug
-/USBFeedDriverTest\[Qt5\]/*.Release
