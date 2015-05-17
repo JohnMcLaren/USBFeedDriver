@@ -1,2 +1,3 @@
 *.EvGen
 /release
+/USBFeedDriver\[ARMv7CM3-STM32F103\]/*.htm
