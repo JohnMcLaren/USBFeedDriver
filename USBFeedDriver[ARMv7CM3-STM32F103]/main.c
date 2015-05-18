@@ -68,20 +68,15 @@ IniIWDT();
 				/* 8 bit interface address */
 				/* <1-байтовый адрес> ---> чтение 1 байта с указанного адреса */
 				case 1:
-					//ReadRFMBytes(pFBYTE->bmAddress,pUSB_TX_BUFF,1);
-					//WriteFeed(TX_FEED_BUFFER,1);
+
 					break;
 				/* <1-байтовый адрес> <--- запись 1 байта по указанному адресу */
 				case 2:
-					//WriteRFMBytes(pFBYTE->bmAddress,&pFBYTE->bData,1);
+
 					break;
 				/* контроль протокола (зарезервировано, не используется) */
 				case 3:
 					break;
-				/* 4-байта (адрес)->чтение DWORD(4 байта), 0 пакет для адресуемого интерфейса */
-//					case 4:
-//						WriteFeed((BYTE*)*(DWORD*)pFBYTE,4);
-//						break;
 				/* 31 bit interface address */
 				/* (>= 4 байта) чтение/запись произвольного кол-ва байт */
 				default:
