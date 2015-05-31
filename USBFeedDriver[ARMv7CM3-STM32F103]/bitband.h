@@ -1,6 +1,6 @@
-﻿// bitband.h
+// bitband.h
 #include	<stm32f10x.h>
-#include 	"types.h"
+#include 	"crosstypes.h"
 /**********************/
 /***	for RAM		***/
 /**********************/

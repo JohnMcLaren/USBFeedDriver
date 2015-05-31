@@ -3,7 +3,7 @@
 
 #include <QtWidgets>
 //-----------------------------------------------------------------------------
-typedef	void (__cdecl * THREAD_ROUTINE)(void *args);
+typedef	void (*THREAD_ROUTINE)(void *args);
 //----------------------------------------------------------------------------
 class CThread : public QThread
 {

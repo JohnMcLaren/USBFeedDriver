@@ -4,8 +4,10 @@
 #include <QtWidgets>
 #include <QSerialPort>
 #include <QSerialPortInfo>
+#include "crosstypes.h"
 #include "thread.h"
 #include "dwsfeed.h"
+
 //-----------------------------------------------------------------------------------------
 #define MAX_FEED_FRAME_SIZE			(255)
 #define MAX_FEED_FRAME_DATA_SIZE	(MAX_FEED_FRAME_SIZE - 2)
@@ -13,34 +15,34 @@
 class CUSBFeedPort : public QSerialPort
 {
 	Q_OBJECT
+
 public:
 	explicit	CUSBFeedPort(QObject *parent = 0);
 	QString		findUSBFeedByName(const QString &feedname);
 	QString		getAvailablesPortsName();
 
-	qint64		ReadFeed(void *pBuff, ULONG lBuff=512, ULONG lTimeOut=1000);
-	ULONG		WriteFeed(void *pData, ULONG lData=0, void *pDataHeader =NULL, BYTE lDataHeader =0);
+    DWORD       ReadFeed(void *pBuff, DWORD dwSize=512, DWORD dwTimeOut=1000);
+    DWORD		WriteFeed(void *pData, DWORD dwDataSize, void *pDataHeader =NULL, BYTE bDataHeaderSize =0);
 	BYTE		ReadFeedByteFromAddr(BYTE bAddr);
 	BYTE		WriteFeedByteToAddr(BYTE bAddr, BYTE bData);
-	ULONG		ReadFeedFromAddr(DWORD dwAddr,BYTE* pBuff, ULONG lRead=512);
-	ULONG		WriteFeedToAddr(DWORD dwAddr,BYTE* pData, ULONG lData=0);
-	ULONG		WriteFeedToAddrEx(DWORD dwAddr,BYTE* pData, ULONG lData=0);
-	ULONG		SendFeedRequest(DWORD dwAddress, DWORD dwRequest, DWORD dwValue);
-	ULONG		SendFeedRequestEx(DWORD dwAddress, DWORD dwRequest, BYTE* pData, ULONG lData=0);
+    DWORD		ReadFeedFromAddr(DWORD dwAddr, BYTE* pBuff, DWORD dwLength);
+    DWORD		WriteFeedToAddr(DWORD dwAddr, BYTE* pData, DWORD dwDataSize=0);
+    DWORD		WriteFeedToAddrEx(DWORD dwAddr,BYTE* pData, DWORD dwDataSize=0);
+    DWORD		SendFeedRequest(DWORD dwAddress, DWORD dwRequest, DWORD dwValue);
+    DWORD       SendFeedRequestEx(DWORD dwAddress, DWORD dwRequest, BYTE* pData, DWORD dwDataSize=0);
 	void		ResetFeedBufferOfDevice();
-	void		enableEvents(DWORD mask);
-	void		enableEvents();
-	void		disableEvents();
+    DWORD		MaskEvents =0;
+    void		enableEvents(DWORD dwMask);
+    void		enableEvents(bool bEnable);
 	void		enableTransferometr(bool bEnableXferMetr);
-	ULONG		getTXSpeed();
-	ULONG		getRXSpeed();
+    DWORD		getTXSpeed();
+    DWORD		getRXSpeed();
 	void		close()
 				{
-					enableEvents(0);
+                    enableEvents((DWORD)0);
 				QSerialPort::close();
 				}
 private:
-	DWORD			MaskEvents		=0;
 	bool			EventsEnabled	=false;
 	__inline BYTE	GetCRC8(BYTE* pData, ULONG lData,BYTE bCRC8=0)
 					{
@@ -49,21 +51,23 @@ private:
 					}
 	CThread			*pThreadPoll	=NULL;
 	bool			XferMetrEnabled =false;
-	ULONG			tx_count;
-	ULONG			rx_count;
-	ULONG			tx_speed;
-	ULONG			rx_speed;
+    DWORD			tx_count;
+    DWORD			rx_count;
+    DWORD			tx_speed;
+    DWORD			rx_speed;
 	QTimer			tmrXferMetr;
-	void			pollpinoutsroutine(void *args);
 signals:
 	void	FeedEvent(int feedevent); // DWORD в Qt почему-то нестандартный тип. поэтому int)
+
 public slots:
+    void	FeedPortEventHandler(DWORD feedevent);	// main hook signals
 private slots:
-	void	FeedPortEventHandler();					// hook Received signal
-	void	FeedPortEventHandler(DWORD feedevent);	// main hook signals
-	void	FeedPortEventHandler(qint64 byteswritten); // hook Written/Transmitted signal
+    void	FeedPortEventHandler();                     // hook Received signal
+    void	FeedPortEventHandler(qint64 byteswritten);  // hook Written/Transmitted signal
 	void	tmrXferMetr_TimeOutEvent();
 };
+
+void    pollpinoutsroutine(void *args);
 //------------------------------------------------------------------------------------------
 #pragma pack(1)
 //************** Неизменяемые данные пакета Адрес =4 байта + Запрос =4 байта **************/

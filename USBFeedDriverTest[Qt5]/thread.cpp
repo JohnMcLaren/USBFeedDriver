@@ -14,12 +14,11 @@ CThread::~CThread()
 //---------------------------------------------------------------------
 void CThread::run()
 {
-/*** Without this 'QObject' we have problem for "Release Build" ***/
-QObject* pObj = new QObject;
-delete pObj;
-/*** "QObject::killTimers: timers cannot be stopped from another thread" ***/
-
 	if(threadroutine)
+    {
+		qDebug("Start thread [%X]", currentThreadId());
 		threadroutine(threadargs);
+    }
+	qDebug("Thread [%X] ended.", currentThreadId());
 }
 //---------------------------------------------------------------------

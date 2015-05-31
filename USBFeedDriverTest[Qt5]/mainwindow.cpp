@@ -8,6 +8,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	ASCIIValues(CountRowMemoryTBL)
 {
 	ui->setupUi(this);
+    qDebug("BYTE: %u, WORD: %u, DWORD: %u, QWORD: %u", sizeof(BYTE), sizeof(WORD), sizeof(DWORD), sizeof(QWORD));
 
 	/* таймера опросов (COM порты/память MCU, скорость/передачи данных) */
 	connect(&tmrPollUSBDevices, SIGNAL(timeout()), SLOT(tmrPollUSBDevices_TimeOutEvent()));
@@ -30,18 +31,18 @@ MainWindow::MainWindow(QWidget *parent) :
 	ui->tblMemory->setColumnCount(CountColumnMemoryTBL);
 	ui->tblMemory->setRowCount(CountRowMemoryTBL);
 	ui->tblMemory->setHorizontalHeaderLabels(QString("0,1,2,3,4,5,6,7,8,9,A,B,C,D,E,F,ASCII").split(","));
-	ui->tblMemory->horizontalHeader()->setStyleSheet("color: darkblue;  font-family: Arial; font: 8.75px;");
-	ui->tblMemory->verticalHeader()->setStyleSheet("color: darkblue;  font-family: Arial; font: 8.5px;");
-	ui->tblMemory->setStyleSheet("color: black;  font-family: Arial;");
+    ui->tblMemory->horizontalHeader()->setStyleSheet("text-align: center; color: darkblue;  font-family: Sans Serif; font: 8.5px;");
+    ui->tblMemory->verticalHeader()->setStyleSheet("text-align: center; color: darkblue;  font-family: Sans Serif; font: 8.5px;");
+    ui->tblMemory->setStyleSheet("text-align: center; color: black; font-family: Sans Serif; font: 8.5px;"); //
 
 	for(int c=0;c < (CountColumnMemoryTBL-1);c++)
 	{
-		ui->tblMemory->setColumnWidth(c,ui->tblMemory->width()/(CountColumnMemoryTBL+6));
+        ui->tblMemory->setColumnWidth(c, ui->tblMemory->width() / (CountColumnMemoryTBL + 6));
 	}
 
 	for(int c=0;c < CountRowMemoryTBL;c++)
 	{
-		ui->tblMemory->setRowHeight(c,16);
+        ui->tblMemory->setRowHeight(c, (ui->tblMemory->height() / (CountRowMemoryTBL + 2)));
 	}
 	ui->tblMemory->horizontalHeader()->setSectionResizeMode((CountColumnMemoryTBL-1), QHeaderView::Stretch);
 
@@ -59,6 +60,9 @@ MainWindow::MainWindow(QWidget *parent) :
 	}
 	updateVerticalHeaderLabelsTBL();
 	ui->tblMemory->installEventFilter(this);// ловушка на скрол мыши над таблицей
+
+    ui->barProgressTXfer->setVisible(false);
+    setFixedSize(size());
 /*** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** ***/
 }
 
@@ -69,8 +73,9 @@ MainWindow::~MainWindow()
 //-------------------------------------------------------------------
 void MainWindow::tmrSpeedUpdate_TimeOutEvent()
 {
-ULONG TXSpeed =feed.getTXSpeed() * 32; // * 4 * 8 = bit per second
-ULONG RXSpeed =feed.getRXSpeed() * 32;
+DWORD TXB =(feed.getTXSpeed() << 2);        // * 4     = bytes per second
+DWORD TXSpeed =(TXB << 3);                  // * 8     = bits per second
+DWORD RXSpeed =(feed.getRXSpeed() << 5);    // * 4 * 8 = bits per second
 
 	if(TXSpeed < 1024)
 	{
@@ -80,10 +85,14 @@ ULONG RXSpeed =feed.getRXSpeed() * 32;
 			{
 				ui->lblUPSpeed->setText(QString().sprintf("Upload (kbit/sec): %6.2f", TXSpeed / 1024.0));
 			}
-			else
-			{
-				ui->lblUPSpeed->setText(QString().sprintf("Upload (Mbit/sec): %6.2f", TXSpeed / 1048576.0));
-			}
+            else    if(TXSpeed < 1073741824)
+                    {
+                        ui->lblUPSpeed->setText(QString().sprintf("Upload (Mbit/sec): %6.2f", TXSpeed / 1048576.0));
+                    }
+                    else
+                    {
+                        ui->lblUPSpeed->setText(QString().sprintf("Upload (Gbit/sec): %6.2f", TXSpeed / 1073741824.0));
+                    }
 
 //....................................................................................
 	if(RXSpeed < 1024)
@@ -94,25 +103,32 @@ ULONG RXSpeed =feed.getRXSpeed() * 32;
 			{
 				ui->lblDOWNSpeed->setText(QString().sprintf("Download (kbit/sec): %6.2f", RXSpeed / 1024.0));
 			}
-			else
-			{
-				ui->lblDOWNSpeed->setText(QString().sprintf("Download (Mbit/sec): %6.2f", RXSpeed / 1048576.0));
-			}
+            else    if(RXSpeed < 1073741824)
+                    {
+                        ui->lblDOWNSpeed->setText(QString().sprintf("Download (Mbit/sec): %6.2f", RXSpeed / 1048576.0));
+                    }
+                    else
+                    {
+                        ui->lblDOWNSpeed->setText(QString().sprintf("Download (Gbit/sec): %6.2f", RXSpeed / 1073741824.0));
+                    }
+
+    setProgressBar(TXB);
 }
 //--------------------------------------------------------------------------------------
 void MainWindow::FeedEvent(int feedevent)
 {
-	if(feedevent & FEED_DSR_EVT)
+    if(feedevent & FEED_INT_EVT)
 	{
 		ui->txtAnswer->setTextColor(Qt::red);
 		ui->txtAnswer->insertPlainText("Feed Interrupt Event\n");
 		ui->txtAnswer->setTextColor(Qt::black);
 	}
-		else
+
 	if(feedevent & FEED_RX_EVT)
 	{
 	BYTE buff[512];
-	ULONG rb;
+    DWORD rb;
+
 		/* read answer */
 		while(rb =feed.ReadFeed(buff, 512, 0)) // Asynchronic (read data IF present)
 		{
@@ -141,13 +157,17 @@ void MainWindow::on_cmdOpenCloseFeed_clicked()
 		ui->cmdOpenCloseFeed->setPalette(QColor(0x98FB98));
 
 			feed.ResetFeedBufferOfDevice();
-			feed.enableEvents(FEED_RX_EVT|FEED_INT_EVT); //
+            feed.enableEvents(FEED_RX_EVT); //
+                ui->chkFeedInt->clicked(ui->chkFeedInt->isChecked());
 			feed.enableTransferometr(true);
 			tmrSpeedUpdate.start(1000);
-		ui->txtAnswer->setText("");
+
+            ui->txtAnswer->setText("");
+            ui->statusBar->showMessage("Feed opened");
 		}
 		else
 		{
+            ui->statusBar->showMessage("Error: " + feed.portName() + " - " + feed.errorString());
 			ui->cmdOpenCloseFeed->setChecked(false); //
 			ui->cmdOpenCloseFeed->setPalette(Qt::red);
 		}
@@ -160,6 +180,7 @@ void MainWindow::on_cmdOpenCloseFeed_clicked()
 		ui->cmdOpenCloseFeed->setPalette(QColor(0xFFE0DFE3));
 		ui->txtPort->setText("0x0000");
 		tmrPollUSBDevices.start(1000);
+        ui->statusBar->showMessage("Feed closed");
 	}
 }
 //...................................................................
@@ -179,7 +200,8 @@ ui->txtAnswer->setTextColor(Qt::black);
 ui->txtAnswer->insertPlainText(ui->txtAddressIFace->text() + " : " + ui->txtMessage->text() + "\n");
 
 	/* send message (address : message) */
-	feed.WriteFeedToAddrEx(dwAddrIFace, (BYTE*)ui->txtMessage->text().toLocal8Bit().data());
+    feed.WriteFeedToAddrEx(ui->chkRW->isChecked() ? (dwAddrIFace | 0x80000000) : (dwAddrIFace & 0x7FFFFFFF),
+                           (BYTE*)ui->txtMessage->text().toLocal8Bit().data());
 }
 //...................................................................
 void MainWindow::on_cmdRead_clicked()
@@ -303,12 +325,31 @@ return QString("0000000%1").arg(dwValue,0,16).right(8).toUpper();
 //........................................................
 DWORD MainWindow::Hex2DWORD(QString hexValue)
 {
-return hexValue.toULong(0,16);
+return hexValue.toUInt(0,16);
 }
 //-------------------------------------------------------------------
-void MainWindow::resizeEvent(QResizeEvent *event)
+void MainWindow::setProgressBar(DWORD dwAddValue, DWORD dwMaxValue)
 {
+    if(dwMaxValue)
+    {
+        ui->barProgressTXfer->setVisible(true);
+        ui->barProgressTXfer->setMaximum(dwMaxValue);
+        ui->barProgressTXfer->setMinimum(0);
+        ui->barProgressTXfer->setValue(0);
+    }
+        else
+    if(ui->barProgressTXfer->isVisible())
+    {
+        if((ui->barProgressTXfer->value() >= ui->barProgressTXfer->maximum()) || ((!dwAddValue) && ui->barProgressTXfer->value()))
+        {
+            ui->barProgressTXfer->setVisible(false);
+        }
 
+        if(dwAddValue > ui->barProgressTXfer->maximum())
+            dwAddValue =ui->barProgressTXfer->maximum();
+
+        ui->barProgressTXfer->setValue(ui->barProgressTXfer->value() + dwAddValue);
+    }
 }
 //-------------------------------------------------------------------
 void MainWindow::on_chkPollMem_toggled(bool checked)
@@ -334,6 +375,7 @@ QString fileName = QFileDialog::getOpenFileName(this,
 	if (!fileName.isEmpty())
 	{
 	QFile file(fileName);
+
 		if (file.open(QFile::ReadOnly))
 		{
 			ui->txtAnswer->insertPlainText(QString().sprintf("Send file: %ls - size: %u Bytes\n",
@@ -341,12 +383,22 @@ QString fileName = QFileDialog::getOpenFileName(this,
 															 file.size()));
 		QByteArray buff = file.readAll();
 		DWORD dwAddrIFace;
-			memcpy(&dwAddrIFace,ui->txtAddressIFace->text().toLatin1(),4);
+
+            memcpy(&dwAddrIFace,ui->txtAddressIFace->text().toLatin1(), 4);
+
 			if(!feed.WriteFeedToAddr(dwAddrIFace, (BYTE*)buff.data(), buff.size()))
 			{
 				ui->txtAnswer->insertPlainText("Error send file!\n");
 			}
+            else
+                setProgressBar(0, file.size());
+
 		file.close();
 		}
 	}
+}
+
+void MainWindow::on_chkFeedInt_clicked(bool checked)
+{
+   feed.enableEvents((checked) ? (feed.MaskEvents | FEED_INT_EVT) : (feed.MaskEvents & (~FEED_INT_EVT)));
 }

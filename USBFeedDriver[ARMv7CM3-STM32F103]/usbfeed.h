@@ -2,7 +2,7 @@
 // 03.08.2014
 //---------------------------------------------------------------------------------
 #include <stm32f10x.h>
-#include "types.h"
+#include "crosstypes.h"
 #include "dwsfeed.h"
 /*=================================================================================
 * Definitions FEED structures and functions

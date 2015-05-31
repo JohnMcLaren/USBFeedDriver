@@ -57,6 +57,7 @@ void CUSBFeedPort::enableTransferometr(bool bEnableXferMetr)
 	{
 		XferMetrEnabled =false;
 		tmrXferMetr.stop();
+
 		if(!EventsEnabled)
 		{
 			disconnect(this, SIGNAL(readyRead()));
@@ -66,18 +67,18 @@ void CUSBFeedPort::enableTransferometr(bool bEnableXferMetr)
 	}
 }
 //--------------------------------------------------------
-ULONG CUSBFeedPort::getTXSpeed()
+DWORD CUSBFeedPort::getTXSpeed() // returns - Bytes per 250 mSec
 {
-ULONG res =tx_speed;
+DWORD res =tx_speed;
 
 	tx_speed =0;
 
 return res;
 }
 //........................................................
-ULONG CUSBFeedPort::getRXSpeed()
+DWORD CUSBFeedPort::getRXSpeed() // returns - Bytes per 250 mSec
 {
-ULONG res =rx_speed;
+DWORD res =rx_speed;
 
 	rx_speed =0;
 
@@ -99,22 +100,23 @@ void CUSBFeedPort::tmrXferMetr_TimeOutEvent()
 	}
 }
 //--------------------------------------------------------
-void CUSBFeedPort::enableEvents(DWORD mask)
+void CUSBFeedPort::enableEvents(DWORD dwMask)
 {
-DWORD changingEvents =(MaskEvents ^ mask);
+DWORD changingEvents =(MaskEvents ^ dwMask);
 
-	if(MaskEvents =mask)
+    if(MaskEvents =dwMask)
 		EventsEnabled = true;
 	else
 		EventsEnabled = false;
 //..............................
 	if(changingEvents & 0x03FF) // change pinouts events mask
 	{
-		if(pThreadPoll)delete(pThreadPoll); // завершить поток если запущен
+        if(pThreadPoll)
+            delete(pThreadPoll); // завершить поток если запущен
 
 		if(MaskEvents & 0x03FF) // запустить поток опроса
 		{
-			pThreadPoll = new CThread((THREAD_ROUTINE)&pollpinoutsroutine, this);
+            pThreadPoll = new CThread((THREAD_ROUTINE)pollpinoutsroutine, this);
 		}
 		else
 		{
@@ -139,21 +141,18 @@ DWORD changingEvents =(MaskEvents ^ mask);
 	}
 }
 //--------------------------------------------------------
-void	CUSBFeedPort::enableEvents()
+void	CUSBFeedPort::enableEvents(bool bEnable)
 {
-	EventsEnabled =true;
+    EventsEnabled =bEnable;
 }
-//......................................
-void	CUSBFeedPort::disableEvents()
-{
-	EventsEnabled =false;
-}
-//-------------------------------------------------------- выполняется в отдельном потоке
-void CUSBFeedPort::pollpinoutsroutine(void *args)
+//--------------------------------------------------------------------------------- выполняется в отдельном потоке
+void pollpinoutsroutine(void *args)
 {
 DWORD pinoutsstate =0;
 if(!args)return;
 CUSBFeedPort *port =(CUSBFeedPort*)args;
+
+qDebug() << "Start pins polling..";
 
 	while(port->isOpen() && (port->MaskEvents & 0x03FF))
 	{
@@ -163,8 +162,10 @@ CUSBFeedPort *port =(CUSBFeedPort*)args;
 			port->FeedPortEventHandler(pinoutsstate =port->pinoutSignals());
 		}
 	}
+
+qDebug() << "Poll pins ended.";
 }
-//--------------------------------------------------------
+//---------------------------------------------------------------------------------------------------------------
 QString	CUSBFeedPort::findUSBFeedByName(const QString &feedname)
 {
 /* получаем список СТРУКТУР <QSerialPortInfo> */
@@ -174,7 +175,9 @@ QList<QSerialPortInfo> serialPortInfoList =QSerialPortInfo::availablePorts();
 	foreach(const QSerialPortInfo &serialPortInfo, serialPortInfoList)
 	{
 		if(serialPortInfo.description() == feedname)
-			return serialPortInfo.portName();
+        {
+            return serialPortInfo.portName();
+        }
 	}
 
 return ("");
@@ -199,56 +202,62 @@ return (portsnames);
 * БезАдресное чтение фида
 * по умолчанию синхронная (блокирующая) по таймауту
 *********************************************************************/
-qint64 CUSBFeedPort::ReadFeed(void *pBuff, ULONG lBuff, ULONG lTimeOut)
+DWORD CUSBFeedPort::ReadFeed(void *pBuff, DWORD dwBuffSize, DWORD dwTimeOut)
 {
-if(!isOpen()||!pBuff)return 0;
-memset(pBuff,0,lBuff);
+if(!isOpen() || !pBuff)return 0;
+memset(pBuff, 0, dwBuffSize);
 
-	if(lTimeOut)
+    if(dwTimeOut)
 	{
-		disableEvents();
-		bool wait =waitForReadyRead(lTimeOut);	// ждём прихода первых данных
-		enableEvents();
-		if(!wait)return 0;	// сработал таймаут
+    bool wait;
+
+        enableEvents(false);
+            wait =waitForReadyRead(dwTimeOut);	// ждём прихода первых данных
+        enableEvents(true);
+
+        if(!wait)
+            return 0;	// сработал таймаут
 	}
 
-return read((char*)pBuff, lBuff);
+return read((char*)pBuff, dwBuffSize);
 }
 /*********************************************************************
 * БезАдресная запись фида
 * асинхронная
 *********************************************************************/
-ULONG CUSBFeedPort::WriteFeed(void *pData, ULONG lData, void *pDataHeader, BYTE lDataHeader)
+DWORD CUSBFeedPort::WriteFeed(void *pData, DWORD dwDataSize, void *pDataHeader, BYTE bDataHeaderSize)
 {
 if(!isOpen() || !pData)return 0;
 
 BYTE	FeedFrame[MAX_FEED_FRAME_SIZE];
 BYTE*	pWD;
-ULONG	wtData=0;
+DWORD	wtData=0;
 BYTE	wb;
 bool	LastFrame;
-if(!lData)lData	=strlen((char*)pData);
+if(!dwDataSize)dwDataSize =strlen((char*)pData);
 
 	do
 	{
 	pWD	=(FeedFrame + 1);			// pointer to header data of frame
 	wb =MAX_FEED_FRAME_DATA_SIZE;	// MAX_FEED_FRAME_SIZE - (frame_hdr_size + frame_crc_size)
 
-		/* если последняя порция данных равна фрейму, нужен будет пустой фрейм для целевого интерфейса */
-		if(wb == lData)
+        /* если последняя порция данных равна фрейму, нужен будет пустой пакет для интерфейса */
+        if(wb == (dwDataSize + bDataHeaderSize))
+        {
 			LastFrame =true;
+        }
 		else
 			LastFrame =false;
 
 		/* заполняем хидер адресного протокола фида */
-		if(pDataHeader && lDataHeader)
+        if(pDataHeader && bDataHeaderSize)
 		{
-			memcpy(pWD, pDataHeader, lDataHeader);
-			pWD +=lDataHeader;		// pointer to data of frame
-			wb -=lDataHeader;
+            memcpy(pWD, pDataHeader, bDataHeaderSize);
+            pWD +=bDataHeaderSize;		// pointer to data of frame
+            wb -=bDataHeaderSize;
 		}
 		/* определяем доступную длину данных в фрейме */
-		if(wb > lData)wb =lData;
+        if(wb > dwDataSize)wb =dwDataSize;
 
 		/* копируем данные во фрейм */
 		memcpy(pWD, pData, wb);
@@ -261,9 +270,9 @@ if(!lData)lData	=strlen((char*)pData);
 		pWD++;	// pointer to end frame
 
 	wtData +=write((char*)FeedFrame, (pWD - FeedFrame));
-	lData -=wb;
+    dwDataSize -=wb;
 	pData +=wb;
-	}while(lData || LastFrame);
+    }while(dwDataSize || LastFrame);
 
 return wtData;
 }
@@ -298,43 +307,43 @@ return WriteFeed(&bfeedreq, sizeof(FEED_BYTE_ADDR_REQUEST));
 /********************************************************************************/
 /************ Чтение фида по 4-байтовому адресу интерфейса устройства ***********/
 /********************************************************************************/
-ULONG CUSBFeedPort::ReadFeedFromAddr(DWORD dwAddr, BYTE *pBuff, ULONG lRead)
+DWORD CUSBFeedPort::ReadFeedFromAddr(DWORD dwAddr, BYTE *pBuff, DWORD dwLength)
 {
-if(!isOpen() || !pBuff || !lRead)return 0;
+if(!isOpen() || !pBuff || !dwLength)return 0;
 HDR_FEED_ADDR_REQUEST	feedreq;
 
 	feedreq.dwAddress	=(dwAddr & 0x7FFFFFFF);	// 31-бит маркер чтения по адресу
-	feedreq.dwRequest	=lRead;
+    feedreq.dwRequest	=dwLength;
 
 	WriteFeed(&feedreq, sizeof(HDR_FEED_ADDR_REQUEST));
 
-return ReadFeed((char*)pBuff, lRead);
+return ReadFeed((char*)pBuff, dwLength);
 }
 /********************************************************************************/
 /************ Запись фида по 4-байтовому адресу интерфейса устройства ***********/
 /********************************************************************************/
-ULONG CUSBFeedPort::WriteFeedToAddr(DWORD dwAddr, BYTE *pData, ULONG lData)
+DWORD CUSBFeedPort::WriteFeedToAddr(DWORD dwAddr, BYTE *pData, DWORD dwDataSize)
 {
 if(!isOpen() || !pData)return 0;
 
 	dwAddr |=0x80000000; // 31-бит маркер записи по адресу
 
-return WriteFeed(pData, lData, &dwAddr, sizeof(DWORD));
+return WriteFeed(pData, dwDataSize, &dwAddr, sizeof(DWORD));
 }
 /********************************************************************************/
 /************ Отправка данных на 4-байтовый адрес интерфейса устройства *********/
 /************ маркер чтения/записи в поле адреса НЕ ИЗМЕНЯЕТСЯ          *********/
 /********************************************************************************/
-ULONG CUSBFeedPort::WriteFeedToAddrEx(DWORD dwAddr, BYTE *pData, ULONG lData)
+DWORD CUSBFeedPort::WriteFeedToAddrEx(DWORD dwAddr, BYTE *pData, DWORD dwDataSize)
 {
-if(!isOpen()||!pData)return 0;
+if(!isOpen() || !pData)return 0;
 
-return WriteFeed(pData, lData, &dwAddr, sizeof(DWORD));
+return WriteFeed(pData, dwDataSize, &dwAddr, sizeof(DWORD));
 }
 /*********************************************************************/
 /************ Запрос фиксированной длины к интерфейсу устройства *****/
 /*********************************************************************/
-ULONG CUSBFeedPort::SendFeedRequest(DWORD dwAddress, DWORD dwRequest, DWORD dwValue)
+DWORD CUSBFeedPort::SendFeedRequest(DWORD dwAddress, DWORD dwRequest, DWORD dwValue)
 {
 if(!isOpen())return 0;
 HDR_FEED_ADDR_REQUEST	feedreq;
@@ -347,15 +356,15 @@ return WriteFeed(&dwValue, sizeof(DWORD), &feedreq, sizeof(HDR_FEED_ADDR_REQUEST
 /*********************************************************************/
 /************ Запрос переменной длины к интерфейсу устройства ********/
 /*********************************************************************/
-ULONG CUSBFeedPort::SendFeedRequestEx(DWORD dwAddress, DWORD dwRequest, BYTE *pData, ULONG lData)
+DWORD CUSBFeedPort::SendFeedRequestEx(DWORD dwAddress, DWORD dwRequest, BYTE *pData, DWORD dwDataSize)
 {
-if(!isOpen()||!pData)return 0;
+if(!isOpen() || !pData)return 0;
 HDR_FEED_ADDR_REQUEST	feedreq;
 
 	feedreq.dwAddress	=dwAddress;
 	feedreq.dwRequest	=dwRequest;
 
-return WriteFeed(pData, lData, &feedreq, sizeof(HDR_FEED_ADDR_REQUEST));
+return WriteFeed(pData, dwDataSize, &feedreq, sizeof(HDR_FEED_ADDR_REQUEST));
 }
 /*********************************************************************/
 /************ Сбос фид-буфера приема устройства **********************/
@@ -365,13 +374,15 @@ void CUSBFeedPort::ResetFeedBufferOfDevice()
 if(!isOpen())return;
 BYTE ResetData[255];
 
-	reset();
-	clear(Output); /* если 'AllDirections' QSerialPort зависает! */
+    qDebug() << "Reset Feed Port";
+
+    reset();
+	clear(Output);                  // если 'AllDirections' QSerialPort зависает!
 
 	memset(ResetData, 0x00, 255);
 	write((char*)ResetData, 255);
 
-	readAll();
+    readAll();
 }
 /*********************************************************************/
 

@@ -1,6 +1,6 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2015-01-22T00:10:44
+# Project created by QtCreator 2015-05-26T00:40:47
 #
 #-------------------------------------------------
 
@@ -14,12 +14,12 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    usbfeedport.cpp \
-    thread.cpp
+    thread.cpp \
+    usbfeedport.cpp
 
 HEADERS  += mainwindow.h \
-    usbfeedport.h \
     dwsfeed.h \
-    thread.h
+    thread.h \
+    usbfeedport.h
 
 FORMS    += mainwindow.ui

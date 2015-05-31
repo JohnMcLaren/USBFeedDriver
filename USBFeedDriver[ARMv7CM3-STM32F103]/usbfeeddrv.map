@@ -882,15 +882,15 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   Object Name
 
-       356         40          0          0          0     207741   init.o
-        56          8          0          0          0        410   iwdt.o
-       576        194          0        136         64      10762   main.o
-       204         16          0          0          0      22775   rtc.o
+       356         40          0          0          0     207773   init.o
+        56          8          0          0          0        418   iwdt.o
+       576        194          0        136         64      10822   main.o
+       204         16          0          0          0      22783   rtc.o
         64         26        236          0      19456        816   startup_stm32f10x_md.o
-      1372         58        225        126         60      35652   usbfeed.o
+      1372         58        225        126         60      35688   usbfeed.o
 
     ----------------------------------------------------------------------
-      2628        342        496        264      19580     278156   Object Totals
+      2628        342        496        264      19580     278300   Object Totals
          0          0         32          0          0          0   (incl. Generated)
          0          0          3          2          0          0   (incl. Padding)
 
@@ -962,8 +962,8 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
 
-      4036        448        496        264      19676     278984   Grand Totals
-      4036        448        496        264      19676     278984   ELF Image Totals
+      4036        448        496        264      19676     279128   Grand Totals
+      4036        448        496        264      19676     279128   ELF Image Totals
       4036        448        496        264          0          0   ROM Totals
 
 ==============================================================================

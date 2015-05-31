@@ -7,7 +7,7 @@
 #include "usbfeedport.h"
 
 #define	CountColumnMemoryTBL	(17)
-#define	CountRowMemoryTBL		(24)
+#define	CountRowMemoryTBL		(17)
 #define	CountCellMemoryTBL		((CountColumnMemoryTBL-1)*CountRowMemoryTBL)
 
 #define STR(str)	QTextCodec::codecForName("Windows-1251")->toUnicode(str)
@@ -23,8 +23,9 @@ class MainWindow : public QMainWindow
 public:
 	explicit MainWindow(QWidget *parent = 0);
 	~MainWindow();
+
 private:
-	Ui::MainWindow *ui;
+    Ui::MainWindow  *ui;
 	CUSBFeedPort	feed;
 	QTimer			tmrPollUSBDevices;
 	QTimer			tmrPollDeviceMemory;
@@ -37,9 +38,11 @@ private:
 	QGridLayout		*mainLayout;
 	void			fillTableFromFeed(const DWORD startaddress, const int startindex, ULONG length);
 	void			updateVerticalHeaderLabelsTBL(const DWORD startaddress=0);
+    void            setProgressBar(DWORD dwAddValue, DWORD dwMaxValue =0);
+
 protected:
 	bool			eventFilter(QObject *object, QEvent *event);
-	void			resizeEvent(QResizeEvent *event);
+
 private slots:
 	void	tmrPollUSBDevices_TimeOutEvent();
 	void	tmrPollDeviceMemory_TimeOutEvent();
@@ -51,5 +54,6 @@ private slots:
 	void	on_txtAddressMemory_textEdited(const QString &arg1);
 	void	FeedEvent(int feedevent);
 	void on_cmdFile_clicked();
+    void on_chkFeedInt_clicked(bool checked);
 };
 #endif // MAINWINDOW_H

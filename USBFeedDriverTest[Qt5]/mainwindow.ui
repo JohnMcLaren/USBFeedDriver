@@ -6,40 +6,33 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>673</width>
-    <height>829</height>
+    <width>693</width>
+    <height>615</height>
    </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="font">
+   <font>
+    <family>Sans Serif</family>
+   </font>
   </property>
   <property name="windowTitle">
    <string>USB Feed Driver test terminal</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QFrame" name="frameOpen">
+   <widget class="QFrame" name="frameMessage">
     <property name="geometry">
      <rect>
-      <x>2</x>
-      <y>0</y>
-      <width>213</width>
-      <height>31</height>
+      <x>6</x>
+      <y>38</y>
+      <width>681</width>
+      <height>201</height>
      </rect>
-    </property>
-    <property name="sizePolicy">
-     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-      <horstretch>0</horstretch>
-      <verstretch>0</verstretch>
-     </sizepolicy>
-    </property>
-    <property name="minimumSize">
-     <size>
-      <width>213</width>
-      <height>31</height>
-     </size>
-    </property>
-    <property name="maximumSize">
-     <size>
-      <width>213</width>
-      <height>31</height>
-     </size>
     </property>
     <property name="accessibleName">
      <string/>
@@ -48,7 +41,7 @@
      <string/>
     </property>
     <property name="frameShape">
-     <enum>QFrame::Box</enum>
+     <enum>QFrame::Panel</enum>
     </property>
     <property name="frameShadow">
      <enum>QFrame::Raised</enum>
@@ -59,219 +52,78 @@
     <property name="midLineWidth">
      <number>0</number>
     </property>
-    <widget class="QPushButton" name="cmdOpenCloseFeed">
+    <widget class="QTextEdit" name="txtAnswer">
      <property name="geometry">
       <rect>
        <x>5</x>
-       <y>5</y>
-       <width>141</width>
-       <height>23</height>
+       <y>27</y>
+       <width>671</width>
+       <height>170</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Sans Serif</family>
+       <pointsize>8</pointsize>
+      </font>
      </property>
      <property name="autoFillBackground">
       <bool>true</bool>
      </property>
-     <property name="text">
-      <string>Find &amp;&amp; Open USB Feed Port</string>
-     </property>
-     <property name="checkable">
-      <bool>true</bool>
-     </property>
-     <property name="checked">
-      <bool>false</bool>
-     </property>
-    </widget>
-    <widget class="QLineEdit" name="txtPort">
-     <property name="geometry">
-      <rect>
-       <x>148</x>
-       <y>6</y>
-       <width>61</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="toolTip">
-      <string>Port Handle</string>
-     </property>
-     <property name="text">
-      <string>0x0000</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
-     </property>
      <property name="readOnly">
       <bool>true</bool>
      </property>
+     <property name="textInteractionFlags">
+      <set>Qt::NoTextInteraction</set>
+     </property>
     </widget>
-   </widget>
-   <widget class="QWidget" name="layoutWidget">
-    <property name="geometry">
-     <rect>
-      <x>356</x>
-      <y>10</y>
-      <width>311</width>
-      <height>15</height>
-     </rect>
-    </property>
-    <layout class="QHBoxLayout" name="horizontalLayout">
-     <item>
-      <widget class="QLabel" name="lblUPSpeed">
-       <property name="text">
-        <string>0</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLabel" name="lblDOWNSpeed">
-       <property name="text">
-        <string>0</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </widget>
-   <widget class="QWidget" name="layoutWidget">
-    <property name="geometry">
-     <rect>
-      <x>2</x>
-      <y>34</y>
-      <width>669</width>
-      <height>775</height>
-     </rect>
-    </property>
-    <layout class="QVBoxLayout" name="verticalLayout">
-     <item>
-      <widget class="QFrame" name="frameMessage">
-       <property name="accessibleName">
-        <string/>
-       </property>
-       <property name="accessibleDescription">
-        <string/>
-       </property>
-       <property name="frameShape">
-        <enum>QFrame::Box</enum>
-       </property>
-       <property name="frameShadow">
-        <enum>QFrame::Raised</enum>
-       </property>
-       <property name="lineWidth">
-        <number>2</number>
-       </property>
-       <property name="midLineWidth">
-        <number>0</number>
-       </property>
-       <widget class="QTextEdit" name="txtAnswer">
-        <property name="geometry">
-         <rect>
-          <x>5</x>
-          <y>27</y>
-          <width>661</width>
-          <height>303</height>
-         </rect>
-        </property>
-        <property name="autoFillBackground">
-         <bool>true</bool>
-        </property>
-        <property name="readOnly">
-         <bool>true</bool>
-        </property>
-        <property name="textInteractionFlags">
-         <set>Qt::NoTextInteraction</set>
-        </property>
-       </widget>
-       <widget class="QPushButton" name="cmdFile">
-        <property name="enabled">
-         <bool>true</bool>
-        </property>
-        <property name="geometry">
-         <rect>
-          <x>623</x>
-          <y>4</y>
-          <width>35</width>
-          <height>21</height>
-         </rect>
-        </property>
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
+    <widget class="QWidget" name="layoutWidget">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>5</y>
+       <width>681</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <property name="spacing">
+       <number>0</number>
+      </property>
+      <property name="leftMargin">
+       <number>5</number>
+      </property>
+      <property name="rightMargin">
+       <number>5</number>
+      </property>
+      <item>
+       <widget class="QCheckBox" name="chkRW">
         <property name="font">
          <font>
-          <family>Arial</family>
-          <pointsize>8</pointsize>
-          <weight>50</weight>
-          <bold>false</bold>
+          <pointsize>7</pointsize>
+          <italic>true</italic>
          </font>
         </property>
-        <property name="text">
-         <string>File</string>
-        </property>
-       </widget>
-       <widget class="QLabel" name="label">
-        <property name="geometry">
-         <rect>
-          <x>11</x>
-          <y>4</y>
-          <width>73</width>
-          <height>16</height>
-         </rect>
-        </property>
-        <property name="frameShadow">
-         <enum>QFrame::Sunken</enum>
+        <property name="layoutDirection">
+         <enum>Qt::RightToLeft</enum>
         </property>
         <property name="text">
-         <string>Send Message:</string>
+         <string>Read / Write</string>
         </property>
        </widget>
-       <widget class="QLineEdit" name="txtMessage">
-        <property name="geometry">
-         <rect>
-          <x>131</x>
-          <y>5</y>
-          <width>413</width>
-          <height>20</height>
-         </rect>
-        </property>
-        <property name="font">
-         <font>
-          <family>Arial</family>
-          <weight>50</weight>
-          <bold>false</bold>
-         </font>
-        </property>
-        <property name="toolTip">
-         <string>Message for interface of device</string>
-        </property>
-        <property name="text">
-         <string>TEST</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-        </property>
-        <property name="readOnly">
-         <bool>false</bool>
-        </property>
-       </widget>
+      </item>
+      <item>
        <widget class="QLineEdit" name="txtAddressIFace">
-        <property name="geometry">
-         <rect>
-          <x>84</x>
-          <y>5</y>
-          <width>47</width>
+        <property name="maximumSize">
+         <size>
+          <width>60</width>
           <height>20</height>
-         </rect>
+         </size>
         </property>
         <property name="font">
          <font>
-          <family>Arial</family>
+          <family>Sans Serif</family>
+          <pointsize>8</pointsize>
           <weight>50</weight>
           <bold>false</bold>
          </font>
@@ -289,18 +141,48 @@
          <bool>false</bool>
         </property>
        </widget>
-       <widget class="QPushButton" name="cmdSend">
-        <property name="geometry">
-         <rect>
-          <x>544</x>
-          <y>4</y>
-          <width>67</width>
-          <height>21</height>
-         </rect>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="txtMessage">
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>20</height>
+         </size>
         </property>
         <property name="font">
          <font>
-          <family>Arial</family>
+          <family>Sans Serif</family>
+          <pointsize>8</pointsize>
+          <weight>50</weight>
+          <bold>false</bold>
+         </font>
+        </property>
+        <property name="toolTip">
+         <string>Message for interface of device</string>
+        </property>
+        <property name="text">
+         <string>TEST</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+        </property>
+        <property name="readOnly">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="cmdSend">
+        <property name="maximumSize">
+         <size>
+          <width>80</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <family>Sans Serif</family>
           <pointsize>8</pointsize>
           <weight>50</weight>
           <bold>false</bold>
@@ -310,10 +192,334 @@
          <string>Send</string>
         </property>
        </widget>
-      </widget>
-     </item>
+      </item>
+      <item>
+       <widget class="QPushButton" name="cmdFile">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <family>Sans Serif</family>
+          <pointsize>8</pointsize>
+          <weight>50</weight>
+          <bold>false</bold>
+         </font>
+        </property>
+        <property name="text">
+         <string>File</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </widget>
+   <widget class="QFrame" name="frameMemory">
+    <property name="geometry">
+     <rect>
+      <x>6</x>
+      <y>240</y>
+      <width>681</width>
+      <height>351</height>
+     </rect>
+    </property>
+    <property name="accessibleName">
+     <string/>
+    </property>
+    <property name="accessibleDescription">
+     <string/>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::Panel</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Raised</enum>
+    </property>
+    <widget class="QTableWidget" name="tblMemory">
+     <property name="geometry">
+      <rect>
+       <x>5</x>
+       <y>25</y>
+       <width>671</width>
+       <height>325</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Sans Serif</family>
+       <pointsize>8</pointsize>
+       <weight>50</weight>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="verticalScrollBarPolicy">
+      <enum>Qt::ScrollBarAlwaysOff</enum>
+     </property>
+     <property name="horizontalScrollBarPolicy">
+      <enum>Qt::ScrollBarAlwaysOff</enum>
+     </property>
+     <property name="sizeAdjustPolicy">
+      <enum>QAbstractScrollArea::AdjustIgnored</enum>
+     </property>
+     <property name="rowCount">
+      <number>32</number>
+     </property>
+     <property name="columnCount">
+      <number>17</number>
+     </property>
+     <row/>
+     <row/>
+     <row/>
+     <row/>
+     <row/>
+     <row/>
+     <row/>
+     <row/>
+     <row/>
+     <row/>
+     <row/>
+     <row/>
+     <row/>
+     <row/>
+     <row/>
+     <row/>
+     <row/>
+     <row/>
+     <row/>
+     <row/>
+     <row/>
+     <row/>
+     <row/>
+     <row/>
+     <row/>
+     <row/>
+     <row/>
+     <row/>
+     <row/>
+     <row/>
+     <row/>
+     <row/>
+     <column/>
+     <column/>
+     <column/>
+     <column/>
+     <column/>
+     <column/>
+     <column/>
+     <column/>
+     <column/>
+     <column/>
+     <column/>
+     <column/>
+     <column/>
+     <column/>
+     <column/>
+     <column/>
+     <column/>
+    </widget>
+    <widget class="QPushButton" name="cmdRead">
+     <property name="geometry">
+      <rect>
+       <x>87</x>
+       <y>3</y>
+       <width>80</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>80</width>
+       <height>20</height>
+      </size>
+     </property>
+     <property name="font">
+      <font>
+       <family>Sans Serif</family>
+       <pointsize>8</pointsize>
+       <weight>50</weight>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="toolTip">
+      <string>Read memory by address</string>
+     </property>
+     <property name="text">
+      <string>Read</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="txtAddressMemory">
+     <property name="geometry">
+      <rect>
+       <x>5</x>
+       <y>3</y>
+       <width>82</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>90</width>
+       <height>20</height>
+      </size>
+     </property>
+     <property name="font">
+      <font>
+       <family>Sans Serif</family>
+       <pointsize>8</pointsize>
+       <weight>50</weight>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="toolTip">
+      <string>Address memory of device</string>
+     </property>
+     <property name="text">
+      <string>0x20000000</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+     <property name="readOnly">
+      <bool>false</bool>
+     </property>
+    </widget>
+    <widget class="QProgressBar" name="barProgressTXfer">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>170</x>
+       <y>8</y>
+       <width>417</width>
+       <height>10</height>
+      </rect>
+     </property>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>16777215</width>
+       <height>10</height>
+      </size>
+     </property>
+     <property name="autoFillBackground">
+      <bool>true</bool>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QProgressBar
+{
+	color: rgb(0, 0, 0);
+	text-align: center;
+}
+
+QProgressBar::chunk
+{
+	width: 10px;
+	margin: 0.5px;
+	background-color: rgb(0, 194, 7);
+}</string>
+     </property>
+     <property name="value">
+      <number>50</number>
+     </property>
+     <property name="textVisible">
+      <bool>false</bool>
+     </property>
+     <property name="format">
+      <string>%p</string>
+     </property>
+    </widget>
+    <widget class="QCheckBox" name="chkPollMem">
+     <property name="geometry">
+      <rect>
+       <x>586</x>
+       <y>3</y>
+       <width>90</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>90</width>
+       <height>20</height>
+      </size>
+     </property>
+     <property name="font">
+      <font>
+       <family>Sans Serif</family>
+       <pointsize>8</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>AutoUpdate</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="layoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>5</x>
+      <y>3</y>
+      <width>671</width>
+      <height>33</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <widget class="QFrame" name="frameMemory">
+      <widget class="QFrame" name="frameOpen">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>213</width>
+         <height>31</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>213</width>
+         <height>31</height>
+        </size>
+       </property>
        <property name="accessibleName">
         <string/>
        </property>
@@ -332,147 +538,159 @@
        <property name="midLineWidth">
         <number>0</number>
        </property>
-       <widget class="QLineEdit" name="txtAddressMemory">
+       <widget class="QPushButton" name="cmdOpenCloseFeed">
         <property name="geometry">
          <rect>
           <x>5</x>
-          <y>5</y>
-          <width>67</width>
-          <height>20</height>
+          <y>4</y>
+          <width>141</width>
+          <height>22</height>
          </rect>
         </property>
         <property name="font">
          <font>
-          <family>Arial</family>
-          <weight>50</weight>
-          <bold>false</bold>
+          <family>Sans Serif</family>
+          <pointsize>7</pointsize>
+         </font>
+        </property>
+        <property name="autoFillBackground">
+         <bool>true</bool>
+        </property>
+        <property name="text">
+         <string>Find &amp;&amp; Open USB Feed Port</string>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+        <property name="checked">
+         <bool>false</bool>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="txtPort">
+        <property name="geometry">
+         <rect>
+          <x>146</x>
+          <y>5</y>
+          <width>61</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <family>Sans Serif</family>
+          <pointsize>8</pointsize>
          </font>
         </property>
         <property name="toolTip">
-         <string>Address memory of device</string>
+         <string>Port Handle</string>
         </property>
         <property name="text">
-         <string>0x20000000</string>
+         <string>0x0000</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
         </property>
         <property name="readOnly">
-         <bool>false</bool>
+         <bool>true</bool>
         </property>
        </widget>
-       <widget class="QTableWidget" name="tblMemory">
-        <property name="geometry">
-         <rect>
-          <x>5</x>
-          <y>26</y>
-          <width>661</width>
-          <height>411</height>
-         </rect>
-        </property>
-        <property name="font">
-         <font>
-          <family>Arial</family>
-          <weight>50</weight>
-          <bold>false</bold>
-         </font>
-        </property>
-        <property name="sizeAdjustPolicy">
-         <enum>QAbstractScrollArea::AdjustIgnored</enum>
-        </property>
-        <property name="rowCount">
-         <number>32</number>
-        </property>
-        <property name="columnCount">
-         <number>17</number>
-        </property>
-        <row/>
-        <row/>
-        <row/>
-        <row/>
-        <row/>
-        <row/>
-        <row/>
-        <row/>
-        <row/>
-        <row/>
-        <row/>
-        <row/>
-        <row/>
-        <row/>
-        <row/>
-        <row/>
-        <row/>
-        <row/>
-        <row/>
-        <row/>
-        <row/>
-        <row/>
-        <row/>
-        <row/>
-        <row/>
-        <row/>
-        <row/>
-        <row/>
-        <row/>
-        <row/>
-        <row/>
-        <row/>
-        <column/>
-        <column/>
-        <column/>
-        <column/>
-        <column/>
-        <column/>
-        <column/>
-        <column/>
-        <column/>
-        <column/>
-        <column/>
-        <column/>
-        <column/>
-        <column/>
-        <column/>
-        <column/>
-        <column/>
-       </widget>
-       <widget class="QPushButton" name="cmdRead">
-        <property name="geometry">
-         <rect>
-          <x>72</x>
-          <y>3</y>
-          <width>75</width>
-          <height>23</height>
-         </rect>
-        </property>
-        <property name="font">
-         <font>
-          <family>Arial</family>
-          <pointsize>8</pointsize>
-          <weight>50</weight>
-          <bold>false</bold>
-         </font>
-        </property>
-        <property name="toolTip">
-         <string>Read memory by address</string>
-        </property>
-        <property name="text">
-         <string>Read</string>
-        </property>
-       </widget>
-       <widget class="QCheckBox" name="chkPollMem">
-        <property name="geometry">
-         <rect>
-          <x>170</x>
-          <y>7</y>
-          <width>81</width>
-          <height>16</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>AutoUpdate</string>
-        </property>
-       </widget>
+      </widget>
+     </item>
+     <item>
+      <widget class="QCheckBox" name="chkFeedInt">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>20</height>
+        </size>
+       </property>
+       <property name="font">
+        <font>
+         <family>Sans Serif</family>
+         <pointsize>8</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Feed Interrupt</string>
+       </property>
+       <property name="checked">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer_2">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>18</width>
+         <height>13</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QLabel" name="lblUPSpeed">
+       <property name="minimumSize">
+        <size>
+         <width>100</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>20</height>
+        </size>
+       </property>
+       <property name="font">
+        <font>
+         <family>Sans Serif</family>
+         <pointsize>8</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>0</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="lblDOWNSpeed">
+       <property name="minimumSize">
+        <size>
+         <width>100</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>20</height>
+        </size>
+       </property>
+       <property name="font">
+        <font>
+         <family>Sans Serif</family>
+         <pointsize>8</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>0</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+       </property>
       </widget>
      </item>
     </layout>
