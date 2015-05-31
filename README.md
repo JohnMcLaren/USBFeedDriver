@@ -29,8 +29,16 @@ For example, from 255 bytes of allowable frame size, only 6 bytes are service (2
 
 ![processfeed](https://github.com/JohnMcLaren/USBFeedDriver/blob/master/img/FeedBuffers.png)
 
-Feed test tool (Qt example USB FEED application and uses CUSBFeed class)
+Feed test tool Windows (Qt example USB FEED application and uses CUSBFeed class)
 
 ![testterminal](https://github.com/JohnMcLaren/USBFeedDriver/blob/master/img/TestTerminalQt.png)
+
+Linux Debian (LXDE)
+
+![testterminal-linux](https://github.com/JohnMcLaren/USBFeedDriver/blob/master/img/TestTerminal-Linux-Debian.png)
+
+Linux Ubuntu (KDE)
+
+![testterminal-linux](https://github.com/JohnMcLaren/USBFeedDriver/blob/master/img/TestTerminal-Linux-Ubuntu.png)
 
 More about Feed Driver work on project page http://johnmclaren.github.io/USBFeedDriver
